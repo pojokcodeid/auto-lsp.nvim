@@ -53,4 +53,10 @@ function M.try_install(mason_package_name)
 		end)
 end
 
+function M.ensure_installed(mason_package_names)
+	for _, mason_package_name in ipairs(mason_package_names) do
+		M.try_install(mason_package_name)
+	end
+end
+
 return M
