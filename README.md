@@ -31,9 +31,7 @@ return{
       end,
       config = function(_, opts)
         require("mason").setup(opts)
-        for _, value in pairs(opts.ensure_installed) do
-          require("auto-lsp.masoncfg").try_install(value)
-        end
+        require("auto-lsp.masoncfg").ensure_installed(opts.ensure_installed)
       end,
     }
   },
