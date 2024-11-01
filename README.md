@@ -1,13 +1,17 @@
 # auto-lsp.nvim
+
 - auto-lsp.nvim is an automatic configuration for mason-lspconfig.nvim and neovim/nvim-lspconfig
+
 # Instalation
+
 - Lazy
+
 ```lua
 return{
-  "pojokcodeid/auto-lsp.nvim",
+  "williamboman/mason-lspconfig.nvim" ,
   event = { "VeryLazy", "BufReadPre", "BufNewFile", "BufRead" },
   dependencies = {
-    { "williamboman/mason-lspconfig.nvim" },
+    {"pojokcodeid/auto-lsp.nvim", lazy = true},
     {
       "neovim/nvim-lspconfig",
       cmd = {"LspInfo","LspInstall","LspUninstall"},
@@ -21,6 +25,16 @@ return{
         "MasonUninstallAll",
         "MasonLog",
       },
+      opts = function(_, opts)
+					opts.ensure_installed = opts.ensure_installed or {}
+          return opts
+      end,
+      config = function(_, opts)
+        require("mason").setup(opts)
+        for _, value in pairs(opts.ensure_installed) do
+          require("auto-lsp.masoncfg").try_install(value)
+        end
+      end,
     }
   },
   opts = function(_, opts)
