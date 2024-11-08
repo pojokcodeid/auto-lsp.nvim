@@ -99,6 +99,7 @@ local function lsp_keymaps(bufnr, on_save)
 
   map("gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", "Goto declaration", "n")
   map("gd", "<cmd>lua vim.lsp.buf.definition()<CR>", "Goto definition", "n")
+  map("<C-LeftMouse>", "<cmd>lua vim.lsp.buf.definition()<CR>", "Goto definition", "n")
   map("K", "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover", "n")
   map("gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", "Goto implementation", "n")
   map("gr", "<cmd>lua vim.lsp.buf.references()<CR>", "References", "n")
