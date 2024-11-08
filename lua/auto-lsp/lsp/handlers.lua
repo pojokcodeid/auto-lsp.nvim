@@ -94,7 +94,7 @@ end
 local function lsp_keymaps(bufnr, on_save)
   local map = function(keys, func, desc, mode)
     mode = mode or "n"
-    vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
+    vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = desc })
   end
 
   map("gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", "Goto declaration", "n")
@@ -103,6 +103,7 @@ local function lsp_keymaps(bufnr, on_save)
   map("gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", "Goto implementation", "n")
   map("gr", "<cmd>lua vim.lsp.buf.references()<CR>", "References", "n")
   map("gl", "<cmd>lua vim.diagnostic.open_float()<CR>", "Show line diagnostics", "n")
+  map("<leader>l", "", "  LSP", "n")
   map("<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", "Format", "n")
   map("<leader>li", "<cmd>LspInfo<cr>", "Information", "n")
   map("<leader>lI", "<cmd>Mason<cr>", "Mason Information", "n")
