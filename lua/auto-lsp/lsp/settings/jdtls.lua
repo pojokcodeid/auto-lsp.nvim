@@ -1,4 +1,4 @@
-if vim.bo.filetype ~= "java" then
+if vim.bo.filetype == "java" then
   return {
     cmd = {
       "jdtls",
