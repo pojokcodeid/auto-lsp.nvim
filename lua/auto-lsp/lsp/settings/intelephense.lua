@@ -18,7 +18,7 @@ end
 
 if validate_php_version() then
 	M.settings = {
-			phpVersion = "8.4.0",  -- Anda bisa menyesuaikan versi ini sesuai kebutuhan
+			phpVersion = "8.4.1",  -- Anda bisa menyesuaikan versi ini sesuai kebutuhan
 	}
 end
 
