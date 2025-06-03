@@ -20,7 +20,7 @@ M.setup = function(opts)
   require("auto-lsp.lsp.handlers").setVirtualText(opts.virtual_text)
   require("auto-lsp.lsp.handlers").setTimeoutMs(opts.timeout_ms)
   
-  vim.lsp.config('lua_ls', {
+  --vim.lsp.config('lua_ls', {
     --[[
     settings = {
       Lua = {
@@ -59,10 +59,11 @@ M.setup = function(opts)
           server_name = vim.split(server_name, "@")[1]
           local require_ok, conf_opts = pcall(require, "auto-lsp.lsp.settings." .. server_name)
           if require_ok then
-            -- option = vim.tbl_deep_extend("force", conf_opts, option)
-            vim.lsp.config(server_name,conf_opts)
+            option = vim.tbl_deep_extend("force", conf_opts, option)
           end
-          require("lspconfig")[server_name].setup(option)
+  
+           vim.lsp.config(server_name,option)
+          --require("lspconfig")[server_name].setup(option)
         end
     end
     -- end,
