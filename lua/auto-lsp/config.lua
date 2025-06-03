@@ -19,7 +19,22 @@ M.setup = function(opts)
   require("auto-lsp.lsp.handlers").setFormtatOnSave(opts.format_on_save)
   require("auto-lsp.lsp.handlers").setVirtualText(opts.virtual_text)
   require("auto-lsp.lsp.handlers").setTimeoutMs(opts.timeout_ms)
-  mason_lsp_config.setup_handlers({
+  vim.lsp.config('lua_ls', {
+    settings = {
+      Lua = {
+        runtime = {
+          version = 'LuaJIT',
+        },
+        diagnostics = {
+          globals = {
+            'vim',
+            'require',
+          },
+        },
+      },
+    },
+  })
+  --[[mason_lsp_config.setup_handlers({
     function(server_name) -- default handler (optional)
       local capabilities = require("auto-lsp.lsp.handlers").capabilities
       if server_name == "clangd" then
@@ -46,6 +61,7 @@ M.setup = function(opts)
     end,
   })
   require("auto-lsp.lsp.handlers").setup()
+  ]]--
 end
 
 return M
