@@ -19,7 +19,7 @@ M.setup = function(opts)
   require("auto-lsp.lsp.handlers").setFormtatOnSave(opts.format_on_save)
   require("auto-lsp.lsp.handlers").setVirtualText(opts.virtual_text)
   require("auto-lsp.lsp.handlers").setTimeoutMs(opts.timeout_ms)
-  
+  --[[
   vim.lsp.config('lua_ls', {
     settings = {
       Lua = {
@@ -35,7 +35,7 @@ M.setup = function(opts)
       },
     },
   })
-  
+  ]]--
   -- mason_lsp_config.setup_handlers({
     -- function(server_name) -- default handler (optional)
   local installed = require("mason-lspconfig").get_installed_servers()
