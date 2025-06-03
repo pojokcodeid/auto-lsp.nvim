@@ -21,6 +21,7 @@ M.setup = function(opts)
   require("auto-lsp.lsp.handlers").setTimeoutMs(opts.timeout_ms)
   
   vim.lsp.config('lua_ls', {
+    --[[
     settings = {
       Lua = {
         runtime = {
@@ -31,6 +32,45 @@ M.setup = function(opts)
             'vim',
             'require',
           },
+        },
+      },
+    },
+    ]]--
+    settings = {
+      Lua = {
+        format = {
+          enable = false,
+        },
+        diagnostics = {
+          globals = { "vim", "spec" },
+        },
+        runtime = {
+          version = "LuaJIT",
+          special = {
+            spec = "require",
+          },
+        },
+        -- workspace = {
+        -- 	checkThirdParty = false,
+        -- 	library = {
+        -- 		[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+        -- 		[vim.fn.stdpath("config") .. "/lua"] = true,
+        -- 	},
+        -- },
+        workspace = {
+          checkThirdParty = false,
+        },
+        hint = {
+          enable = false,
+          arrayIndex = "Disable", -- "Enable" | "Auto" | "Disable"
+          await = true,
+          paramName = "Disable", -- "All" | "Literal" | "Disable"
+          paramType = true,
+          semicolon = "All", -- "All" | "SameLine" | "Disable"
+          setType = false,
+        },
+        telemetry = {
+          enable = false,
         },
       },
     },
