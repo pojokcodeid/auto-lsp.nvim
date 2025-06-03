@@ -59,7 +59,7 @@ M.setup = function(opts)
           server_name = vim.split(server_name, "@")[1]
           local require_ok, conf_opts = pcall(require, "auto-lsp.lsp.settings." .. server_name)
           if require_ok then
-            option = vim.tbl_deep_extend("force", conf_opts, option)
+            -- option = vim.tbl_deep_extend("force", conf_opts, option)
             vim.lsp.config(server_name,conf_opts)
           end
           require("lspconfig")[server_name].setup(option)
