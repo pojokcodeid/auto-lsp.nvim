@@ -41,8 +41,9 @@ M.setup = function(opts)
       if require_ok then
         option = vim.tbl_deep_extend("force", conf_opts, option)
       end
-      if vim.version().minor >= 8 then
-        vim.lsp.start({ name = server_name, config = option })
+      if vim.version().minor >= 11 then
+        vim.lsp.config(server_name, option)
+        vim.lsp.enable(server_name)
       else
         require("lspconfig")[server_name].setup(option)
       end
