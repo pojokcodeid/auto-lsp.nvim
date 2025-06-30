@@ -18,7 +18,7 @@ M.setup = function(opts)
   local option = {}
   require("auto-lsp.lsp.handlers").setFormtatOnSave(opts.format_on_save or true)
   require("auto-lsp.lsp.handlers").setVirtualText(opts.virtual_text or true)
-  require("auto-lsp.lsp.handlers").setTimeoutMs(opts. or 5000)
+  require("auto-lsp.lsp.handlers").setTimeoutMs(opts.timeout_ms or 5000)
   local installed_servers = mason_lsp_config.get_installed_servers()
   for _, server_name in ipairs(installed_servers) do
     local capabilities = require("auto-lsp.lsp.handlers").capabilities
