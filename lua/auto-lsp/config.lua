@@ -15,10 +15,14 @@ end
 
 M.setup = function(opts)
   mason_lsp_config.setup(opts)
+  opts.format_on_save = opts.format_on_save or true
+  opts.virtual_text = opts.virtual_text or true
+  opts.timeout_ms = opts.timeout_ms or 5000
+  opts.skip_config = opts.skip_config or {}
   local option = {}
-  require("auto-lsp.lsp.handlers").setFormtatOnSave(opts.format_on_save or true)
-  require("auto-lsp.lsp.handlers").setVirtualText(opts.virtual_text or true)
-  require("auto-lsp.lsp.handlers").setTimeoutMs(opts.timeout_ms or 5000)
+  require("auto-lsp.lsp.handlers").setFormtatOnSave(opts.format_on_save)
+  require("auto-lsp.lsp.handlers").setVirtualText(opts.virtual_text)
+  require("auto-lsp.lsp.handlers").setTimeoutMs(opts.timeout_ms)
   local installed_servers = mason_lsp_config.get_installed_servers()
   for _, server_name in ipairs(installed_servers) do
     local capabilities = require("auto-lsp.lsp.handlers").capabilities
@@ -26,7 +30,7 @@ M.setup = function(opts)
       capabilities.offsetEncoding = { "utf-16" }
     end
     local is_skip = false
-    local my_index = idxOf(opts.skip_config or {}, server_name)
+    local my_index = idxOf(opts.skip_config, server_name)
     if my_index ~= nil then
       is_skip = true
     end
