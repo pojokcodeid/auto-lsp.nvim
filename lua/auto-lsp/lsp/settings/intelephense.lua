@@ -1,25 +1,32 @@
 local M = {
-	cmd = { "intelephense", "--stdio" },
-	filetypes = { "php" },
-	root_dir = require("lspconfig.util").root_pattern("composer.json", ".git") or vim.loop.cwd() or vim.fn.getcwd(),
-	single_file_support = true,
+  cmd = { "intelephense", "--stdio" },
+  filetypes = { "php" },
+  root_dir = require("lspconfig.util").root_pattern("composer.json", ".git") or vim.loop.cwd() or vim.fn.getcwd(),
+  single_file_support = true,
 }
 
-local function validate_php_version()
-	local handle = io.popen("php -v")
-	local result = handle:read("*a")
-	handle:close()
+-- Ambil versi PHP dari ENV secara dinamis
+local function get_php_version()
+  local handle = io.popen("php -v")
+  if not handle then return nil end
 
-	if not string.match(result, "PHP 8.4.") then
-			return false
-	end
-	return true
+  local result = handle:read("*a")
+  handle:close()
+
+  -- Cari pattern versi, contoh: "PHP 8.4.1"
+  local version = result:match("PHP%s+(%d+%.%d+%.?%d*)")
+  return version
 end
 
-if validate_php_version() then
-	M.settings = {
-			phpVersion = "8.4.1",  -- Anda bisa menyesuaikan versi ini sesuai kebutuhan
-	}
+local php_version = get_php_version()
+if php_version then
+  M.settings = {
+    intelephense = {
+      environment = {
+        phpVersion = php_version,
+      }
+    }
+  }
 end
 
 return M
