@@ -20,17 +20,19 @@ M.setup = function(opts)
   opts.timeout_ms = opts.timeout_ms or 5000
   opts.skip_config = opts.skip_config or {}
   local option = {}
-  require("auto-lsp.lsp.handlers").setFormtatOnSave(opts.format_on_save)
-  require("auto-lsp.lsp.handlers").setVirtualText(opts.virtual_text)
-  require("auto-lsp.lsp.handlers").setTimeoutMs(opts.timeout_ms)
+  -- check blink.cmp is exists
+  local blink_ok, blink_cmp = pcall(require, "blink.cmp")
+  if not blink_ok then
+    require("auto-lsp.lsp.handlers").setFormtatOnSave(opts.format_on_save)
+    require("auto-lsp.lsp.handlers").setVirtualText(opts.virtual_text)
+    require("auto-lsp.lsp.handlers").setTimeoutMs(opts.timeout_ms)
+  end
   local installed_servers = mason_lsp_config.get_installed_servers()
   for _, server_name in ipairs(installed_servers) do
     local capabilities = require("auto-lsp.lsp.handlers").capabilities
     if server_name == "clangd" then
       capabilities.offsetEncoding = { "utf-16" }
     end
-    -- check blink.cmp is exists
-    local blink_ok, blink_cmp = pcall(require, "blink.cmp")
     if blink_ok then
       capabilities = blink_cmp.get_lsp_capabilities(capabilities)
     end
