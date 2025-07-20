@@ -29,6 +29,11 @@ M.setup = function(opts)
     if server_name == "clangd" then
       capabilities.offsetEncoding = { "utf-16" }
     end
+    -- check blink.cmp is exists
+    local blink_ok, blink_cmp = pcall(require, "blink.cmp")
+    if blink_ok then
+      capabilities = blink_cmp.get_lsp_capabilities(capabilities)
+    end
     local is_skip = false
     local my_index = idxOf(opts.skip_config, server_name)
     if my_index ~= nil then
