@@ -20,36 +20,16 @@ M.setup = function(opts)
   opts.timeout_ms = opts.timeout_ms or 5000
   opts.skip_config = opts.skip_config or {}
   local option = {}
-  -- check blink.cmp is exists
-  local blink_ok, blink_cmp = pcall(require, "blink.cmp")
-  if not blink_ok then
-    require("auto-lsp.lsp.handlers").setFormtatOnSave(opts.format_on_save)
-    require("auto-lsp.lsp.handlers").setVirtualText(opts.virtual_text)
-    require("auto-lsp.lsp.handlers").setTimeoutMs(opts.timeout_ms)
-  end
+  require("auto-lsp.lsp.handlers").setFormtatOnSave(opts.format_on_save)
+  require("auto-lsp.lsp.handlers").setVirtualText(opts.virtual_text)
+  require("auto-lsp.lsp.handlers").setTimeoutMs(opts.timeout_ms)
   local installed_servers = mason_lsp_config.get_installed_servers()
   for _, server_name in ipairs(installed_servers) do
-    local capabilities
-    if not blink_ok then
-      capabilities = require("auto-lsp.lsp.handlers").capabilities
-      if server_name == "clangd" then
-        capabilities.offsetEncoding = { "utf-16" }
-      end
-    else
-      capabilities = blink_cmp.get_lsp_capabilities({
-        textDocument = {
-          foldingRange = {
-            dynamicRegistration = false,
-            lineFoldingOnly = true,
-          },
-          completion = {
-            completionItem = {
-              snippetSupport = true,
-            },
-          },
-        },
-      })
+    local capabilities = require("auto-lsp.lsp.handlers").capabilities
+    if server_name == "clangd" then
+      capabilities.offsetEncoding = { "utf-16" }
     end
+
     local is_skip = false
     local my_index = idxOf(opts.skip_config, server_name)
     if my_index ~= nil then
