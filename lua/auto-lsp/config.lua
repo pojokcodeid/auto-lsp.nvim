@@ -29,12 +29,26 @@ M.setup = function(opts)
   end
   local installed_servers = mason_lsp_config.get_installed_servers()
   for _, server_name in ipairs(installed_servers) do
-    local capabilities = require("auto-lsp.lsp.handlers").capabilities
-    if server_name == "clangd" then
-      capabilities.offsetEncoding = { "utf-16" }
-    end
-    if blink_ok then
-      capabilities = blink_cmp.get_lsp_capabilities(capabilities)
+    local capabilities
+    if not blink_ok then
+      capabilities = require("auto-lsp.lsp.handlers").capabilities
+      if server_name == "clangd" then
+        capabilities.offsetEncoding = { "utf-16" }
+      end
+    else
+      capabilities = blink_cmp.get_lsp_capabilities({
+        textDocument = {
+          foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+          },
+          completion = {
+            completionItem = {
+              snippetSupport = true,
+            },
+          },
+        },
+      })
     end
     local is_skip = false
     local my_index = idxOf(opts.skip_config, server_name)
